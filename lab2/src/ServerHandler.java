@@ -1,12 +1,15 @@
 import java.net.*;
+import java.util.List;
 import java.io.*;
 
 public class ServerHandler implements Runnable {
     DataInputStream in;
     Socket serverSocket;
+    Client client;
 
-    public ServerHandler(Socket serverSocket) {
+    public ServerHandler(Client client, Socket serverSocket) {
         try {
+            this.client = client;
             this.serverSocket = serverSocket;
             this.in = new DataInputStream(new BufferedInputStream(serverSocket.getInputStream()));
         } catch (IOException e) {
@@ -22,6 +25,9 @@ public class ServerHandler implements Runnable {
             try
             {
                 line = in.readUTF();
+                if (line.startsWith("/command_list")){
+                    this.client.updateClientList(line);
+                }
                 System.out.println(line);
             }
             catch(IOException i)

@@ -2,11 +2,13 @@ import java.net.*;
 import java.io.*;
 
 public class ClientHandler implements Runnable {
-    DataInputStream in;
-    Socket clientSocket;
+    private DataInputStream in;
+    private Server server;
+    private Socket clientSocket;
 
-    public ClientHandler(Socket clientSocket) {
+    public ClientHandler(Server server, Socket clientSocket) {
         try {
+            this.server = server;
             this.clientSocket = clientSocket;
             this.in = new DataInputStream(new BufferedInputStream(clientSocket.getInputStream()));
         } catch (IOException e) {
@@ -31,7 +33,8 @@ public class ClientHandler implements Runnable {
                 System.out.println(i);
             }
         }
-        System.out.println("Closing connection");
+        this.server.DisconnectClient(this.clientSocket);
+        //System.out.println("Closing connection");
 
                             
         try {

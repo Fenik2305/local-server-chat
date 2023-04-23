@@ -1,11 +1,17 @@
 import java.io.*;
 import java.net.*;
- 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+
 public class Client {
     // initialize socket and input output streams
     private Socket socket = null;
     private DataInputStream input = null;
     private DataOutputStream out = null;
+    private ArrayList<String> clientList = null;
+    private String nickname = null;
  
     // constructor to put ip address and port
     public Client(String address, int port)
@@ -14,6 +20,9 @@ public class Client {
         try {
             socket = new Socket(address, port);
             System.out.println("Connected");
+            ServerHandler serverHandler = new ServerHandler(this, socket);
+            Thread thread = new Thread(serverHandler);
+            thread.start();
  
             // takes input from terminal
             input = new DataInputStream(System.in);
@@ -54,6 +63,11 @@ public class Client {
         catch (IOException i) {
             System.out.println(i);
         }
+    }
+
+    public void updateClientList(String clientList) {
+        this.clientList = new ArrayList(Arrays.asList(clientList.split("\n")));
+        this.clientList.remove(0);
     }
  
     public static void main(String args[])
