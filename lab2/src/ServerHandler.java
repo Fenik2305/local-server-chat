@@ -25,10 +25,14 @@ public class ServerHandler implements Runnable {
             try
             {
                 line = in.readUTF();
-                if (line.startsWith("/command_list")){
+                if (line.startsWith("/command_list")) {
                     this.client.updateClientList(line);
                 }
+                if (line.startsWith("/message")) {
+                    this.client.getMessage(line);
+                }
                 System.out.println(line);
+                
             }
             catch(IOException i)
             {

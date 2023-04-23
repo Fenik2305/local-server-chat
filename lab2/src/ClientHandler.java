@@ -25,6 +25,10 @@ public class ClientHandler implements Runnable {
             try
             {
                 line = in.readUTF();
+                if (line.startsWith("/message")) {
+                    server.SendMessage(line, clientSocket.getInetAddress().getHostAddress().toString());
+                    System.out.println("Опять пидары у власти!");
+                }
                 System.out.println(line);
 
             }

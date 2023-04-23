@@ -12,12 +12,14 @@ public class Client {
     private DataOutputStream out = null;
     private ArrayList<String> clientList = null;
     private String nickname = null;
+    private GUI gui = null;
  
     // constructor to put ip address and port
-    public Client(String address, int port)
+    public Client(String address, int port, GUI gui)
     {
         // establish a connection
         try {
+            this.gui = gui;
             socket = new Socket(address, port);
             System.out.println("Connected");
             ServerHandler serverHandler = new ServerHandler(this, socket);
@@ -41,29 +43,17 @@ public class Client {
         }
  
         // string to read message from input
-
         String line = "";
-              // keep reading until "Over" is input
-              //while (!line.equals("Over")) {
-              //  try {
-              //      line = input.readLine();
-              //     out.writeUTF(line);
-               // }
-               // catch (IOException i) {
-               //     System.out.println(i);
-              // }
-          //  }
-     
-            // close the connection
-           // try {
-           //     input.close();
-            //    out.close();
-           //     socket.close();
-           // }
-          //  catch (IOException i) {
-           //     System.out.println(i);
-           // }
-  
+    }
+    public void sendMessage(String message, List<String> receivers){
+        String command = "/message\n" + message + "\n" + String.join("\n", receivers);
+        try {
+            out.writeUTF(command);
+            System.out.println("Клиент сенд месседж!");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
     }
 
     public void updateClientList(String clientList) {
@@ -74,10 +64,11 @@ public class Client {
     public ArrayList<String> getClientList() {
         return this.clientList;
     }
- 
-    public static void main(String args[])
-    {
-        Client client = new Client("192.168.1.138", 5000);
+    
+    public void getMessage(String message){
+        ArrayList<String> lines = new ArrayList<>(Arrays.asList(message.split("\n"))) ; // Split input by newline character
+        this.gui.addMessageToChat(lines.get(1),lines.get(2));
+        System.out.println("Доза говно успешно принята!");
     }
 }
 

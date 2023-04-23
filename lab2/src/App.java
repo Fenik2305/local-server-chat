@@ -9,6 +9,5 @@ public class App {
                 new GUI();
             }
         });
-
     }
 }
