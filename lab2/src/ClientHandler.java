@@ -34,7 +34,6 @@ public class ClientHandler implements Runnable {
             }
         }
         this.server.DisconnectClient(this.clientSocket);
-        //System.out.println("Closing connection");
 
                             
         try {

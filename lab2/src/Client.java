@@ -41,33 +41,38 @@ public class Client {
         }
  
         // string to read message from input
+
         String line = "";
- 
-        // keep reading until "Over" is input
-        while (!line.equals("Over")) {
-            try {
-                line = input.readLine();
-                out.writeUTF(line);
-            }
-            catch (IOException i) {
-                System.out.println(i);
-            }
-        }
- 
-        // close the connection
-        try {
-            input.close();
-            out.close();
-            socket.close();
-        }
-        catch (IOException i) {
-            System.out.println(i);
-        }
+              // keep reading until "Over" is input
+              //while (!line.equals("Over")) {
+              //  try {
+              //      line = input.readLine();
+              //     out.writeUTF(line);
+               // }
+               // catch (IOException i) {
+               //     System.out.println(i);
+              // }
+          //  }
+     
+            // close the connection
+           // try {
+           //     input.close();
+            //    out.close();
+           //     socket.close();
+           // }
+          //  catch (IOException i) {
+           //     System.out.println(i);
+           // }
+  
     }
 
     public void updateClientList(String clientList) {
         this.clientList = new ArrayList(Arrays.asList(clientList.split("\n")));
         this.clientList.remove(0);
+    }
+
+    public ArrayList<String> getClientList() {
+        return this.clientList;
     }
  
     public static void main(String args[])
