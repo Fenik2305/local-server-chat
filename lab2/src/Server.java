@@ -1,6 +1,8 @@
 import java.net.*;
+import java.awt.List;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
  
 public class Server
 {
@@ -49,7 +51,22 @@ public class Server
         return line;
     }
 
-    public void SendMessage(ArrayList<Client> toSend, Client sender, String message) {
+    public void SendMessage(String inputMessage, String sender) {
+        
+        ArrayList<String> lines = new ArrayList<>(Arrays.asList(inputMessage.split("\n"))) ; // Split input by newline character
+        String text = lines.get(1); 
+
+        for (Socket socket : socketList) {
+            if(lines.contains(socket.getInetAddress().getHostAddress().toString())){
+                DataOutputStream out = out = new DataOutputStream(socket.getOutputStream());
+                try {
+                    out.writeUTF("/message\n" + text + "\n" + sender);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
         
     }
 
@@ -75,3 +92,4 @@ public class Server
         Server server = new Server(5000);
     }
 }
+

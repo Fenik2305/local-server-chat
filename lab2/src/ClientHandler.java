@@ -25,6 +25,9 @@ public class ClientHandler implements Runnable {
             try
             {
                 line = in.readUTF();
+                if(line.startsWith("/message")){
+                    server.SendMessage(line, clientSocket.getInetAddress().getHostAddress().toString());
+                }
                 System.out.println(line);
 
             }
@@ -34,7 +37,6 @@ public class ClientHandler implements Runnable {
             }
         }
         this.server.DisconnectClient(this.clientSocket);
-        //System.out.println("Closing connection");
 
                             
         try {

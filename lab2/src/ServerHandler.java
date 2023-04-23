@@ -28,7 +28,11 @@ public class ServerHandler implements Runnable {
                 if (line.startsWith("/command_list")){
                     this.client.updateClientList(line);
                 }
+                if(line.startsWith("/message")){
+                    
+                }
                 System.out.println(line);
+                
             }
             catch(IOException i)
             {

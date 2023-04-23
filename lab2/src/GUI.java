@@ -7,15 +7,18 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GuiMain {
+public class GUI {
     private JFrame frame;
     private JTextArea chatTextArea;
     private JTextField messageTextField;
     private JList<String> nameList;
     private DefaultListModel<String> listModel;
+    private Client client;
 
-    public GuiMain() {
-        //Client client = new Client();
+    public GUI() {
+        this.client = new Client("192.168.10.17", 5000, this);    
+        System.out.println("GAY");
+        
         frame = new JFrame("Multi-Select Chat Name List App");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(400, 250);
@@ -31,15 +34,12 @@ public class GuiMain {
                 String message = messageTextField.getText();
                 chatTextArea.append("You: " + message + "\n");
                 messageTextField.setText("");
+            
             }
         });
 
         listModel = new DefaultListModel<>();
-        listModel.addElement("John");
-        listModel.addElement("Jane");
-        listModel.addElement("Alice");
-        listModel.addElement("Bob");
-        listModel.addElement("Charlie");
+        this.updateClientList();
 
         nameList = new JList<>(listModel);
         nameList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
@@ -64,4 +64,23 @@ public class GuiMain {
 
         frame.setVisible(true);
     }
+
+    public void addMessageToChat(String text, String sender){
+        messageTextField.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String message = messageTextField.getText();
+                chatTextArea.append(sender + ": " + message + "\n");
+                messageTextField.setText("");
+            
+            }
+        });
+    }
+
+    public void updateClientList() {
+        listModel.clear();
+        for (String client : this.client.getClientList()) {
+            listModel.addElement(client);
+        }
+    } 
 }
