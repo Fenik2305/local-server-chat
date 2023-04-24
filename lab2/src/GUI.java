@@ -19,8 +19,6 @@ public class GUI {
     private Client client;
 
     public GUI() {
-        this.client = new Client("192.168.1.138", 5000, this);    
-        
         frame = new JFrame("Multi-Select Chat Name List App");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(400, 250);
@@ -31,10 +29,14 @@ public class GUI {
 
         messageTextField = new JTextField();
 
-        listModel = new DefaultListModel<>();
-        this.updateClientList();
+        this.listModel = new DefaultListModel<>();
+    
+        this.client = new Client("192.168.1.138", 5000, this); 
+        Client temp = this.client;
 
-        nameList = new JList<>(listModel);
+        //this.updateClientList();
+
+        nameList = new JList<>(this.listModel);
         nameList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         nameList.addListSelectionListener(new ListSelectionListener() {
             @Override
@@ -47,7 +49,7 @@ public class GUI {
             }
         });
 
-        Client temp = this.client;
+        
 
         messageTextField.addActionListener(new ActionListener() {
             @Override
@@ -56,7 +58,6 @@ public class GUI {
                 chatTextArea.append("You: " + message + "\n");
                 messageTextField.setText("");
                 temp.sendMessage(message, nameList.getSelectedValuesList());
-                System.out.println("Клиент пидарас!");
             }
         });
 
@@ -73,13 +74,12 @@ public class GUI {
 
     public void addMessageToChat(String text, String sender) {
         chatTextArea.append(sender + ": " + text + "\n");
-        System.out.println("Говно не пройдёт!");
     }
 
     public void updateClientList() {
-        listModel.clear();
+        this.listModel.clear();
         for (String client : this.client.getClientList()) {
-            listModel.addElement(client);
+            this.listModel.addElement(client);
         }
     } 
 }

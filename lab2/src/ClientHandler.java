@@ -27,19 +27,17 @@ public class ClientHandler implements Runnable {
                 line = in.readUTF();
                 if (line.startsWith("/message")) {
                     server.SendMessage(line, clientSocket.getInetAddress().getHostAddress().toString());
-                    System.out.println("Опять пидары у власти!");
                 }
                 System.out.println(line);
-
             }
             catch(IOException i)
             {
                 System.out.println(i);
             }
         }
-        this.server.DisconnectClient(this.clientSocket);
 
-                            
+        this.server.DisconnectClient(this.clientSocket);
+              
         try {
             this.clientSocket.close();
             this.in.close();

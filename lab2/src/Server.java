@@ -62,7 +62,6 @@ public class Server
                 try {
                     DataOutputStream out = new DataOutputStream(socket.getOutputStream());
                     out.writeUTF("/message\n" + text + "\n" + sender);
-                    System.out.println("Клиент " + socket.getInetAddress().getHostAddress() + " принял дозу говнеца!");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

@@ -45,20 +45,27 @@ public class Client {
         // string to read message from input
         String line = "";
     }
-    public void sendMessage(String message, List<String> receivers){
-        String command = "/message\n" + message + "\n" + String.join("\n", receivers);
-        try {
-            out.writeUTF(command);
-            System.out.println("Клиент сенд месседж!");
-        } catch (IOException e) {
-            e.printStackTrace();
+    public void sendMessage(String message, List<String> receivers) {
+        if (!message.equals("Over")) {
+            String command = "/message\n" + message + "\n" + String.join("\n", receivers);
+            try {
+                out.writeUTF(command);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                out.writeUTF("Over");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-        
     }
 
     public void updateClientList(String clientList) {
         this.clientList = new ArrayList(Arrays.asList(clientList.split("\n")));
         this.clientList.remove(0);
+        this.gui.updateClientList();
     }
 
     public ArrayList<String> getClientList() {
@@ -66,9 +73,8 @@ public class Client {
     }
     
     public void getMessage(String message){
-        ArrayList<String> lines = new ArrayList<>(Arrays.asList(message.split("\n"))) ; // Split input by newline character
+        ArrayList<String> lines = new ArrayList<>(Arrays.asList(message.split("\n"))); // Split input by newline character
         this.gui.addMessageToChat(lines.get(1),lines.get(2));
-        System.out.println("Доза говно успешно принята!");
     }
 }
 
